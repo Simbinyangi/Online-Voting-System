@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Results - {{ election.title }} - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">{{ election.title }} - Results</h1>
+        <p class="lead">{{ election.description }}</p>
+        <p class="text-muted">
+            Total Votes: {{ total_votes }}
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Vote Distribution</h3>
+                {% if results %}
+                    {% for result in results %}
+                        <div class="mb-4">
+                            <h5>{{ result.candidate.name }}</h5>
+                            <div class="progress" style="height: 25px">
+                                {% if total_votes > 0 %}
+                                    {% set percentage = (result.votes / total_votes * 100)|round %}
+                                {% else %}
+                                    {% set percentage = 0 %}
+                                {% endif %}
+                                <div class="progress-bar" 
+                                     role="progressbar" 
+                                     style="width: {{ percentage }}%;" 
+                                     aria-valuenow="{{ percentage }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                    {{ percentage }}% ({{ result.votes }} votes)
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">
+                        No votes have been cast in this election yet.
+                    </div>
+                {% endif %}
+                
+                <div class="mt-4">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

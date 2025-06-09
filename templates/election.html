@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ election.title }} - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">{{ election.title }}</h1>
+        <p class="lead">{{ election.description }}</p>
+        <p class="text-muted">
+            Ends: {{ election.end_datetime.strftime('%Y-%m-%d %H:%M') }}
+        </p>
+    </div>
+</div>
+
+{% if has_voted %}
+    <div class="alert alert-success">
+        You have already cast your vote in this election.
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">Cast Your Vote</h3>
+                    <form method="POST" action="{{ url_for('cast_vote', election_id=election.id) }}">
+                        {% for candidate in election.candidates %}
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" 
+                                       name="candidate_id" id="candidate{{ candidate.id }}" 
+                                       value="{{ candidate.id }}" required>
+                                <label class="form-check-label" for="candidate{{ candidate.id }}">
+                                    <h5>{{ candidate.name }}</h5>
+                                    <p class="text-muted">{{ candidate.description }}</p>
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Submit Vote</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %} 

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Create Election - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">Create New Election</h1>
+        <p class="lead">Fill in the details below to create a new election</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Election Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="start_datetime" class="form-label">Start Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="start_datetime" name="start_datetime" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="end_datetime" class="form-label">End Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime" required>
+                        </div>
+                    </div>
+                    
+                    <h4 class="mt-4 mb-3">Candidates</h4>
+                    <div id="candidates-container">
+                        <div class="candidate-entry mb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="candidate_name[]" placeholder="Candidate Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="candidate_description[]" placeholder="Candidate Description">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-outline-primary mb-3" onclick="addCandidate()">
+                        Add Another Candidate
+                    </button>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Create Election</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function addCandidate() {
+    const container = document.getElementById('candidates-container');
+    const newEntry = document.createElement('div');
+    newEntry.className = 'candidate-entry mb-3';
+    newEntry.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="candidate_name[]" placeholder="Candidate Name" required>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="candidate_description[]" placeholder="Candidate Description">
+            </div>
+        </div>
+    `;
+    container.appendChild(newEntry);
+}
+</script>
+{% endblock %} 

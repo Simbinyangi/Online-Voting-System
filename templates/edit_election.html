@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Election - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">Edit Election</h1>
+        <p class="lead">Modify the election details below</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Election Title</label>
+                        <input type="text" class="form-control" id="title" name="title" 
+                               value="{{ election.title }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" 
+                                  rows="3" required>{{ election.description }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="start_datetime" class="form-label">Start Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="start_datetime" 
+                                   name="start_datetime" 
+                                   value="{{ election.start_datetime.strftime('%Y-%m-%dT%H:%M') }}" 
+                                   required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="end_datetime" class="form-label">End Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="end_datetime" 
+                                   name="end_datetime" 
+                                   value="{{ election.end_datetime.strftime('%Y-%m-%dT%H:%M') }}" 
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="active" 
+                                   name="active" {% if election.active %}checked{% endif %}>
+                            <label class="form-check-label" for="active">Active</label>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Update Election</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
