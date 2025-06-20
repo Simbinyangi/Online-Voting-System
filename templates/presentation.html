@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}App Presentation{% endblock %}
+{% block content %}
+<h2 class="mb-4">App Presentation</h2>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <h5>Login Page</h5>
+        <img src="{{ url_for('static', filename='screens/login.png') }}" class="img-fluid border rounded" alt="Login Page">
+        <p class="mt-2">User login to access the system.</p>
+    </div>
+    <div class="col-md-4 mb-4">
+        <h5>Register Page</h5>
+        <img src="{{ url_for('static', filename='screens/register.png') }}" class="img-fluid border rounded" alt="Register Page">
+        <p class="mt-2">New users can register here.</p>
+    </div>
+    <div class="col-md-4 mb-4">
+        <h5>Admin Dashboard</h5>
+        <img src="{{ url_for('static', filename='screens/admin_dashboard.png') }}" class="img-fluid border rounded" alt="Admin Dashboard">
+        <p class="mt-2">Admin can manage elections and view logs.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <h5>Voting Page</h5>
+        <img src="{{ url_for('static', filename='screens/voting.png') }}" class="img-fluid border rounded" alt="Voting Page">
+        <p class="mt-2">Users can vote in active elections.</p>
+    </div>
+    <div class="col-md-4 mb-4">
+        <h5>Results Page</h5>
+        <img src="{{ url_for('static', filename='screens/results.png') }}" class="img-fluid border rounded" alt="Results Page">
+        <p class="mt-2">View election results in real time.</p>
+    </div>
+    <div class="col-md-4 mb-4">
+        <h5>Login Logs</h5>
+        <img src="{{ url_for('static', filename='screens/login_logs.png') }}" class="img-fluid border rounded" alt="Login Logs">
+        <p class="mt-2">Admin can view all login activity.</p>
+    </div>
+</div>
+{% endblock %} 

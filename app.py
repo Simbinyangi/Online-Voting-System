@@ -52,6 +52,12 @@ class Vote(db.Model):
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidate.id'), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+class LoginLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable=False)
+    login_time = db.Column(db.DateTime, default=datetime.utcnow)
+    ip_address = db.Column(db.String(45))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -99,6 +105,13 @@ def login():
         
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
+            # Log the login event
+            log = LoginLog(
+                username=user.username,
+                ip_address=request.remote_addr
+            )
+            db.session.add(log)
+            db.session.commit()
             if user.role == 'admin':
                 return redirect(url_for('admin_dashboard'))
             return redirect(url_for('index'))
@@ -267,6 +280,23 @@ def view_results(election_id):
                          election=election,
                          results=results,
                          total_votes=total_votes)
+
+@app.route('/admin/logins')
+@login_required
+def view_logins():
+    if current_user.role != 'admin':
+        flash('Access denied. Admin privileges required.')
+        return redirect(url_for('index'))
+    logs = LoginLog.query.order_by(LoginLog.login_time.desc()).all()
+    return render_template('admin_logins.html', logs=logs)
+
+@app.route('/presentation')
+def presentation():
+    return render_template('presentation.html')
+
+@app.route('/forms_showcase')
+def forms_showcase():
+    return render_template('forms_showcase.html')
 
 if __name__ == '__main__':
     with app.app_context():
